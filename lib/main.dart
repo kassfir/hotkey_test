@@ -49,18 +49,21 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
           child: KeyboardShortcutTest(
+        intent: const SnackbarIntent(),
         snackbarMessage: "Parent widget",
         hotkey: LogicalKeyboardKey.escape,
         child: Focus(
           autofocus: true,
           child: Column(
             children: [
-              const Text("content"),
+              const Text(
+                  "Press Esc to trigger a snackbar or press the button to open an overlay"),
               OverlayPortal(
                 controller: controller,
                 overlayChildBuilder: (context) {
                   return KeyboardShortcutTest(
-                    snackbarMessage: "Overlay  widget",
+                    intent: const OverlaySnackbarIntent(),
+                    snackbarMessage: "Overlay widget",
                     hotkey: LogicalKeyboardKey.space,
                     child: Focus(
                       autofocus: true,
@@ -74,14 +77,16 @@ class _MyHomePageState extends State<MyHomePage> {
                           },
                           child: Container(
                             color: Colors.blue,
-                            width: 150,
-                            height: 50,
+                            width: 400,
+                            height: 400,
+                            padding: const EdgeInsets.all(20),
                             alignment: Alignment.center,
                             child: const Text(
-                              'overlay content',
+                              'Notice that the snackbar message changes, but both SnackbarIntents produce the same message when Esc of Space is pressed. Click outside the overlay to close it.',
                               style: TextStyle(
                                 color: Colors.white,
                               ),
+                              textAlign: TextAlign.center,
                             ),
                           ),
                         ),
