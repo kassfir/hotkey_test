@@ -92,6 +92,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             padding: const EdgeInsets.all(20),
                             alignment: Alignment.center,
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 const Text(
                                   'Notice that the snackbar message changes, but both SnackbarIntents produce the same message when Esc of Space is pressed. Click outside the overlay to close it.',
@@ -105,17 +107,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                   textAlign: TextAlign.center,
                                 ),
                                 TextField(
-                                  autofocus: false,
                                   focusNode: focusNode,
-                                  onTapOutside: (event) {
-                                    focusNode.unfocus(
-                                        disposition: UnfocusDisposition
-                                            .previouslyFocusedChild);
-                                  },
                                   onEditingComplete: () {
                                     focusNode.unfocus(
-                                        disposition: UnfocusDisposition
-                                            .previouslyFocusedChild);
+                                      disposition: UnfocusDisposition
+                                          .previouslyFocusedChild,
+                                    );
                                   },
                                 ),
                                 const SizedBox(height: 12),
@@ -124,9 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   style: TextStyle(color: Colors.white),
                                   textAlign: TextAlign.center,
                                 ),
-                                const TextField(
-                                  autofocus: false,
-                                ),
+                                const TextField(),
                               ],
                             ),
                           ),
