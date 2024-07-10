@@ -15,10 +15,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
       ),
       home: const MyHomePage(),
     );
@@ -49,14 +47,14 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
           child: KeyboardShortcutTest(
         intent: const SnackbarIntent(),
-        snackbarMessage: "Parent widget",
+        snackbarMessage: 'Parent widget',
         hotkey: LogicalKeyboardKey.escape,
         child: Focus(
           autofocus: true,
           onFocusChange: (isFocused) {
             final message = isFocused
-                ? "Parent widget gained focus."
-                : "Parent widget lost focus.";
+                ? 'Parent widget gained focus.'
+                : 'Parent widget lost focus.';
 
             print('----> $message');
           },
@@ -64,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text(
-                  "Press Esc to trigger a snackbar or press the button to open an overlay"),
+                  'Press Esc to trigger a snackbar or press the button to open an overlay'),
               OverlayPortal(
                 controller: controller,
                 overlayChildBuilder: (context) {
@@ -72,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                   return KeyboardShortcutTest(
                     intent: const OverlaySnackbarIntent(),
-                    snackbarMessage: "Overlay widget",
+                    snackbarMessage: 'Overlay widget',
                     hotkey: LogicalKeyboardKey.space,
                     child: Focus(
                       focusNode: overlayFocusNode,
@@ -82,11 +80,9 @@ class _MyHomePageState extends State<MyHomePage> {
                           onTapOutside: (event) {
                             inspect(FocusScope.of(context));
                             focusNode.dispose();
-                            controller.hide();
-                            setState(() {});
                           },
                           child: Container(
-                            color: Colors.blue,
+                            color: Theme.of(context).colorScheme.inversePrimary,
                             width: 400,
                             height: 400,
                             padding: const EdgeInsets.all(20),
@@ -97,17 +93,21 @@ class _MyHomePageState extends State<MyHomePage> {
                               children: [
                                 const Text(
                                   'Notice that the snackbar message changes, but both SnackbarIntents produce the same message when Esc of Space is pressed. Click outside the overlay to close it.',
-                                  style: TextStyle(color: Colors.white),
                                   textAlign: TextAlign.center,
                                 ),
                                 const SizedBox(height: 12),
                                 const Text(
                                   'With FocusNode',
-                                  style: TextStyle(color: Colors.white),
                                   textAlign: TextAlign.center,
                                 ),
                                 TextField(
                                   focusNode: focusNode,
+                                  onTapOutside: (_) {
+                                    focusNode.unfocus(
+                                      disposition: UnfocusDisposition
+                                          .previouslyFocusedChild,
+                                    );
+                                  },
                                   onEditingComplete: () {
                                     focusNode.unfocus(
                                       disposition: UnfocusDisposition
@@ -118,10 +118,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                 const SizedBox(height: 12),
                                 const Text(
                                   'Without FocusNode. This will cause focus to be misplaced.',
-                                  style: TextStyle(color: Colors.white),
                                   textAlign: TextAlign.center,
                                 ),
                                 const TextField(),
+                                const SizedBox(height: 12),
+                                OutlinedButton(
+                                  onPressed: () {
+                                    controller.hide();
+                                  },
+                                  child: const Text('Click me!'),
+                                )
                               ],
                             ),
                           ),
@@ -135,7 +141,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: () {
                     controller.show();
                     FocusScope.of(context).requestFocus(overlayFocusNode);
-                    setState(() {});
                   },
                 ),
               ),
