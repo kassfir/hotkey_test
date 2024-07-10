@@ -122,11 +122,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                                 const TextField(),
                                 const SizedBox(height: 12),
+                                const Text(
+                                  'A button, when clicked, will not cause Focus to be lost.',
+                                  textAlign: TextAlign.center,
+                                ),
                                 OutlinedButton(
                                   onPressed: () {
                                     controller.hide();
                                   },
-                                  child: const Text('Click me!'),
+                                  child: const Text('Close overlay'),
                                 )
                               ],
                             ),
