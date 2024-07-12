@@ -39,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
+  FocusNode parentFocusNode = FocusNode();
   FocusNode overlayFocusNode = FocusNode();
 
   @override
@@ -51,6 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
         hotkey: LogicalKeyboardKey.escape,
         child: Focus(
           autofocus: true,
+          focusNode: parentFocusNode,
           onFocusChange: (isFocused) {
             final message = isFocused
                 ? 'Parent widget gained focus.'
@@ -62,7 +64,16 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text(
-                  'Press Esc to trigger a snackbar or press the button to open an overlay'),
+                'Press Esc to trigger a snackbar or press the button to open an overlay',
+              ),
+              ValueListenableBuilder<bool>(
+                valueListenable: controller.isShowingNotifier,
+                builder: (context, isShowing, child) {
+                  return Text(isShowing
+                      ? "ValueNotifier is true"
+                      : "ValueNotifier is true");
+                },
+              ),
               OverlayPortal(
                 controller: controller,
                 overlayChildBuilder: (context) {

@@ -1,21 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CustomOverlayPortalController extends OverlayPortalController {
-  ValueNotifier<bool> isShowingNotifier = ValueNotifier(false);
-  FocusNode focusNode = FocusNode();
+  late final ValueNotifier<bool> isShowingNotifier =
+      ValueNotifier(super.isShowing);
 
-  CustomOverlayPortalController() {
-    // Add a listener to the isShowingNotifier to handle focus automatically
-    isShowingNotifier.addListener(_handleFocusChange);
-  }
-
-  void _handleFocusChange() {
-    if (isShowingNotifier.value) {
-      focusNode.requestFocus();
-    } else {
-      focusNode.unfocus();
-    }
-  }
+  CustomOverlayPortalController();
 
   @override
   void toggle() {
@@ -36,8 +25,6 @@ class CustomOverlayPortalController extends OverlayPortalController {
   }
 
   void dispose() {
-    focusNode.dispose();
-    isShowingNotifier.removeListener(_handleFocusChange);
     isShowingNotifier.dispose();
   }
 }
